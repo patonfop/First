@@ -8,6 +8,8 @@ def work_time(date_start,  date_end, days_work, days_skip):
     for i in range(0, delta.days, days_skip+days_work):
         for b in range(days_work):
             graphik.append(str(start.date() + timedelta(days=i+b)))
+            if graphik[-1] == str(end.date()):
+                break
 
     return graphik
 
