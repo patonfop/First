@@ -6,20 +6,18 @@ def country ():
     r = requests.get(URL)
     if r.status_code == 200:
         soup = b(r.text, 'html.parser')
-        cauntr_list = []
-        img_list = []
-        full_name = []
+        finish = []
         all_cauntr = soup.find('table', class_='wikitable').find_all('tr')
         for i in all_cauntr[1:]:
-            cauntr_list.append(i.find_all("td")[1].find('img', class_='thumbborder').get('alt'))
-            img_list.append(i.find_all("td")[1].find('img', class_='thumbborder').get('src'))
-            full_name.append(i.find_all("td")[3].text)
+            f_name = i.find_all("td")[3].text[:-1]
 
+            finish.append({"country": i.find_all("td")[1].find('img', class_='thumbborder').get('alt') ,
+                           "full_country_name": f_name,
+                           "words_in_full_name": len(f_name.split(' ')),
+                           "same_letter_count": 11,
+                           "flag_url": i.find_all("td")[1].find('img', class_='thumbborder').get('src')[2:]})
 
-
-        print(full_name)
-        print(cauntr_list)
-        print(img_list)
+        print(finish)
 
 
 
