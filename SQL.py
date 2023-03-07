@@ -60,11 +60,26 @@ def pars_country ():
     else:
         return 'Помилка в URL або ж сайт недоступний.'
 
+def countri_get() -> str:
+    step = 0
+    lst_countri = pars_country()
+    while True:
+        name = lst_countri[step]['country']
+        full_country_name = lst_countri[step]['full_country_name']
+        words_in_full_name = lst_countri[step]['words_in_full_name']
+        same_letter_count = lst_countri[step]['same_letter_count']
+        flag_url = lst_countri[step]['flag_url']
+        yield f"""("{name}", "{full_country_name}", {words_in_full_name}, {same_letter_count}, "{flag_url}")"""
+        step += 1
+        if step >= len(lst_countri):
+            break
 
-insert_users = """
+
+insert_countri = """
     INSERT INTO
         countries (name, full_country_name, words_in_full_name, same_letter_count,flag_url)
     VALUES
-""" + ",\n".join(pars_country ()) + ";"
+""" + ",\n".join(list(countri_get())) + ";"
 
-print(insert_users)
+
+execute_query(connection, insert_countri)
