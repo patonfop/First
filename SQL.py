@@ -64,12 +64,7 @@ def countri_get() -> str:
     step = 0
     lst_countri = pars_country()
     while True:
-        name = lst_countri[step]['country']
-        full_country_name = lst_countri[step]['full_country_name']
-        words_in_full_name = lst_countri[step]['words_in_full_name']
-        same_letter_count = lst_countri[step]['same_letter_count']
-        flag_url = lst_countri[step]['flag_url']
-        yield f"""("{name}", "{full_country_name}", {words_in_full_name}, {same_letter_count}, "{flag_url}")"""
+        yield str(tuple(lst_countri[step].values()))
         step += 1
         if step >= len(lst_countri):
             break
@@ -79,7 +74,7 @@ insert_countri = """
     INSERT INTO
         countries (name, full_country_name, words_in_full_name, same_letter_count,flag_url)
     VALUES
-""" + ",\n".join(list(countri_get())) + ";"
+""" + ",\n".join(countri_get()) + ";"
 
 
 execute_query(connection, insert_countri)
